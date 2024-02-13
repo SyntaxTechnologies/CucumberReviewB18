@@ -15,10 +15,10 @@ import org.junit.runner.RunWith;
         glue = "steps",
         //dry run stops the actual execution when set to true
         //it will scan all the steps definitions and provide if there is any step def missing
-        dryRun = false,
+        dryRun = true,
         //tags = "@sprint1 and @sprint4"
         //  tags = "@sprint1 or @sprint5 or @sprint2 or @sprint6"
-        tags = "@smoke",
+//        tags = "@smoke",
         plugin = {"pretty"}
 )
 public class RunnerClass {
