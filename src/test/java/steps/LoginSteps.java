@@ -1,12 +1,15 @@
 package steps;
 
 import io.cucumber.java.en.*;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.CommonMethods;
+import utils.Log;
 
 import java.util.List;
+import java.util.Map;
 
 public class LoginSteps extends CommonMethods {
     @Given("the user navigate to the website")
@@ -15,6 +18,12 @@ public class LoginSteps extends CommonMethods {
     }
     @When("user enters the username and password")
     public void user_enters_the_username_and_password() {
+//        dom configuration
+        DOMConfigurator.configure("log4j.xml");
+        Log.startOfTestCase("dksfksfsdkmfdk");
+        Log.logTheException("sfddsfdsfsfdsfssf");
+
+
         WebElement usernameField = driver.findElement(By.id("txtUsername"));
         WebElement passwordField = driver.findElement(By.id("txtPassword"));
         sendText("Admin",usernameField);
@@ -79,6 +88,26 @@ public class LoginSteps extends CommonMethods {
     public void the_user_sees_the_error_message(String expectedMessage) {
         String actualMsg = driver.findElement(By.id("spanMessage")).getText();
         Assert.assertEquals(actualMsg,expectedMessage);
+
+    }
+
+    @Then("the user enters the username and password and clicks on login then sees the error message")
+    public void the_user_enters_the_username_and_password_and_clicks_on_login_then_sees_the_error_message(io.cucumber.datatable.DataTable dataTable) {
+        List<Map<String, String>> wrongCrdentials = dataTable.asMaps();
+
+        for(Map<String,String>data:wrongCrdentials){
+
+            String username = data.get("username");
+            String pass = data.get("password");
+            String errormsg = data.get("errorMessage");
+
+            sendText( username,login.usernameField);
+            sendText(pass,login.passwordField);
+            click(login.loginButton);
+            String actualMessage = login.errorMessageLoc.getText();
+
+            Assert.assertEquals(actualMessage,errormsg);
+        }
 
     }
 
